@@ -2,7 +2,7 @@ import { Controller, Get, Query } from '@nestjs/common';
 import { AppService } from './app.service';
 import { DbManagerService } from './db-manager/db-manager.service';
 
-@Controller()
+@Controller() // localhost:3000/
 export class AppController {
   constructor(
     private readonly appService: AppService,

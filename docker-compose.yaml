@@ -1,0 +1,22 @@
+name: infra-wordpress
+services:
+  wordpress:
+    image: wordpress
+    ports:
+      - "8000:80"
+    environment:
+      WORDPRESS_DB_HOST: db:3306
+      WORDPRESS_DB_USER: user_wordpress
+      WORDPRESS_DB_PASSWORD: pass_wordpress
+  db:
+    image: mysql
+    environment:
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: user_wordpress
+      MYSQL_PASSWORD: pass_wordpress
+      MYSQL_ROOT_PASSWORD: root_wordpress
+    volumes:
+      - db_data_cmd:/var/lib/mysql
+volumes:
+  db_data_cmd:
+

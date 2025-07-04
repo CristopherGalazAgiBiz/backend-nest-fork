@@ -44,4 +44,11 @@ describe('AppController (e2e)', () => {
         expect(response.body.resultado).toBe(200);
       });
   });
+
+  it('/operaciones (GET)', () => {
+    return request(app.getHttpServer())
+      .get('/operaciones')
+      .query({ operacion: 'suma', a: "a", b: 100 })
+      .expect(502);
+  });
 });
