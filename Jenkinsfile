@@ -50,8 +50,23 @@ pipeline {
                     docker.withRegistry("${registry}", registryCredentials){
                         sh "docker build -t backend-nest-cgc ."
                         sh "docker tag backend-nest-cgc ${dockerImagePrefix}/backend-nest-cgc"
+                        sh "docker tag backend-nest-cgc ${dockerImagePrefix}/backend-nest-cgc:${BUILD_NUMBER}"
                         sh "docker push ${dockerImagePrefix}/backend-nest-cgc"
+                        sh "docker push ${dockerImagePrefix}/backend-nest-cgc:${BUILD_NUMBER}"
                     }
+                }
+            }
+        }
+        stage ("Actualización de kubernetes"){
+            agent {
+                docker {
+                    image 'alpine/k8s:1.30.2'
+                    reuseNode true
+                }
+            }
+            steps {
+                withKubeConfig([credentialsId: 'gcp-kubeconfig']){
+                    sh "kubectl -n lab-cgc set image deployments/backend-nest-cgc backend-nest-cgc=${dockerImagePrefix}/backend-nest-cgc:${BUILD_NUMBER}"
                 }
             }
         }
