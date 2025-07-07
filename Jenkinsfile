@@ -47,7 +47,7 @@ pipeline {
             steps {
                 //  sh "docker login -u -p ${registry}"
                 script{
-                    docker.withRegistry("${registry}", regitryCredentials){
+                    docker.withRegistry("${registry}", registryCredentials){
                         sh "docker build -t backend-nest-cgc ."
                         sh "docker tag backend-nest-cgc ${dockerImagePrefix}/backend-nest-cgc"
                         sh "docker push ${dockerImagePrefix}/backend-nest-cgc"
