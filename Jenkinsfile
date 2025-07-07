@@ -46,13 +46,12 @@ pipeline {
         stage ('build y push de imagen docker'){
             steps {
                 //  sh "docker login -u -p ${registry}"
-                script(
+                script{
                     docker.withRegistry("${registry}", regitryCredentials){
                         sh "docker build -t backend-nest-cgc ."
                         sh "docker tag backend-nest-cgc ${dockerImagePrefix}/backend-nest-cgc"
                         sh "docker push ${dockerImagePrefix}/backend-nest-cgc"
-                )
-
+                    }
                 }
             }
         }
